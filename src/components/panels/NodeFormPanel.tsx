@@ -5,13 +5,16 @@
 
 import { useCallback, useMemo } from 'react';
 import { useWorkflowStore } from '../../hooks/useWorkflowStore';
-import type { WorkflowNodeData, StartNodeData, TaskNodeData, ApprovalNodeData, AutomatedStepNodeData, EndNodeData } from '../../types/workflow';
+import type { WorkflowNodeData, StartNodeData, TaskNodeData, ApprovalNodeData, AutomatedStepNodeData, EndNodeData, ConditionNodeData, EmailNodeData, TimerNodeData } from '../../types/workflow';
 import { NODE_TYPE_LABELS, NODE_TYPE_COLORS, NODE_TYPE_ICONS, type NodeType } from '../../types/workflow';
 import { StartNodeForm } from './forms/StartNodeForm';
 import { TaskNodeForm } from './forms/TaskNodeForm';
 import { ApprovalNodeForm } from './forms/ApprovalNodeForm';
 import { AutomatedStepForm } from './forms/AutomatedStepForm';
 import { EndNodeForm } from './forms/EndNodeForm';
+import { ConditionNodeForm } from './forms/ConditionNodeForm';
+import { EmailNodeForm } from './forms/EmailNodeForm';
+import { TimerNodeForm } from './forms/TimerNodeForm';
 
 export function NodeFormPanel() {
   const { nodes, selectedNodeId, updateNodeData, setSelectedNode, deleteSelected, pushSnapshot, validationErrors } = useWorkflowStore();
@@ -111,6 +114,9 @@ export function NodeFormPanel() {
         {nodeType === 'start' && <StartNodeForm data={data as StartNodeData} onChange={handleChange} />}
         {nodeType === 'task' && <TaskNodeForm data={data as TaskNodeData} onChange={handleChange} />}
         {nodeType === 'approval' && <ApprovalNodeForm data={data as ApprovalNodeData} onChange={handleChange} />}
+        {nodeType === 'condition' && <ConditionNodeForm data={data as ConditionNodeData} onChange={handleChange} />}
+        {nodeType === 'email' && <EmailNodeForm data={data as EmailNodeData} onChange={handleChange} />}
+        {nodeType === 'timer' && <TimerNodeForm data={data as TimerNodeData} onChange={handleChange} />}
         {nodeType === 'automated' && <AutomatedStepForm data={data as AutomatedStepNodeData} onChange={handleChange} />}
         {nodeType === 'end' && <EndNodeForm data={data as EndNodeData} onChange={handleChange} />}
       </div>

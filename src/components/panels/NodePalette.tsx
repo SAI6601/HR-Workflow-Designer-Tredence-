@@ -20,9 +20,11 @@ const NODE_DESCRIPTIONS: Record<NodeType, string> = {
 
 interface NodePaletteProps {
   onOpenSimulation: () => void;
+  isDarkMode?: boolean;
+  onToggleTheme?: () => void;
 }
 
-export function NodePalette({ onOpenSimulation }: NodePaletteProps) {
+export function NodePalette({ onOpenSimulation, isDarkMode, onToggleTheme }: NodePaletteProps) {
   const { undo, redo, canUndo, canRedo, getSnapshot, loadSnapshot, runValidation } = useWorkflowStore();
 
   const onDragStart = useCallback((event: React.DragEvent, nodeType: NodeType) => {
@@ -62,10 +64,25 @@ export function NodePalette({ onOpenSimulation }: NodePaletteProps) {
             <circle cx="32" cy="32" r="4" fill="white"/>
           </svg>
           <div>
-            <h1 className="node-palette-title">HR Workflow</h1>
-            <p className="node-palette-subtitle">Designer</p>
+            <h1 className="node-palette-title" style={{ fontSize: '18px', letterSpacing: '-0.5px' }}>Tredence</h1>
+            <p className="node-palette-subtitle">HR Workflow Designer</p>
           </div>
         </div>
+        {onToggleTheme && (
+          <button 
+            className="toolbar-btn" 
+            style={{ marginTop: '12px', width: '100%', justifyContent: 'center' }} 
+            onClick={onToggleTheme}
+            title="Toggle Theme"
+          >
+            {isDarkMode ? (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            ) : (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            )}
+            <span>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
+          </button>
+        )}
       </div>
 
       {/* Node cards */}
@@ -83,7 +100,11 @@ export function NodePalette({ onOpenSimulation }: NodePaletteProps) {
                 className="palette-card"
                 draggable
                 onDragStart={(e) => onDragStart(e, type)}
-                style={{ '--card-accent': colors.border } as React.CSSProperties}
+                style={{ 
+                  '--card-accent': colors.border,
+                  backdropFilter: 'blur(8px)',
+                  background: isDarkMode ? 'rgba(30, 41, 59, 0.7)' : 'rgba(255, 255, 255, 0.7)'
+                } as React.CSSProperties}
               >
                 <div className="palette-card-icon" style={{ background: colors.bg, color: colors.icon }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

@@ -10,6 +10,9 @@ import { TaskNode } from './TaskNode';
 import { ApprovalNode } from './ApprovalNode';
 import { AutomatedStepNode } from './AutomatedStepNode';
 import { EndNode } from './EndNode';
+import { ConditionNode } from './ConditionNode';
+import { EmailNode } from './EmailNode';
+import { TimerNode } from './TimerNode';
 
 export const nodeTypes: NodeTypes = {
   start: StartNode,
@@ -17,4 +20,7 @@ export const nodeTypes: NodeTypes = {
   approval: ApprovalNode,
   automated: AutomatedStepNode,
   end: EndNode,
+  condition: ConditionNode,
+  email: EmailNode,
+  timer: TimerNode,
 };

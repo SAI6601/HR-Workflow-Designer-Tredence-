@@ -15,7 +15,23 @@ import { WorkflowCanvas } from './components/canvas/WorkflowCanvas';
 
 function AppInner() {
   const [simulationOpen, setSimulationOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return document.documentElement.classList.contains('dark') ||
+           window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
   const { undo, redo, selectedNodeId } = useWorkflowStore();
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
+  const toggleTheme = useCallback(() => {
+    setIsDarkMode((prev) => !prev);
+  }, []);
 
   // Global keyboard shortcuts
   const handleKeyDown = useCallback(
@@ -40,10 +56,14 @@ function AppInner() {
   }, [handleKeyDown]);
 
   return (
-    <div className="app-layout">
-      <NodePalette onOpenSimulation={() => setSimulationOpen(true)} />
+    <div className={`app-layout ${isDarkMode ? 'dark-theme' : 'light-theme'}`}>
+      <NodePalette 
+        onOpenSimulation={() => setSimulationOpen(true)} 
+        isDarkMode={isDarkMode}
+        onToggleTheme={toggleTheme}
+      />
       <main className="app-canvas-area">
-        <WorkflowCanvas />
+        <WorkflowCanvas isDarkMode={isDarkMode} />
       </main>
       <NodeFormPanel key={selectedNodeId} />
       <SimulationPanel isOpen={simulationOpen} onClose={() => setSimulationOpen(false)} />

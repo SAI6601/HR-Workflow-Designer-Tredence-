@@ -41,12 +41,15 @@ export function BaseNode({
     <div
       className="workflow-node"
       style={{
-        borderColor: hasErrors ? '#ef4444' : hasWarnings ? '#f59e0b' : selected ? colors.border : '#e2e8f0',
+        borderColor: hasErrors ? '#ef4444' : hasWarnings ? '#f59e0b' : selected ? colors.border : 'var(--color-border)',
+        background: 'var(--color-surface)',
         boxShadow: selected
-          ? `0 0 0 2px ${colors.border}40, 0 4px 20px rgba(0,0,0,0.08)`
+          ? `0 0 0 2px ${colors.border}40, 0 8px 30px ${colors.border}30`
           : hasErrors
-          ? '0 0 0 2px #ef444440, 0 4px 20px rgba(0,0,0,0.08)'
-          : '0 2px 12px rgba(0,0,0,0.06)',
+          ? '0 0 0 2px #ef444440, 0 8px 30px rgba(239,68,68,0.2)'
+          : 'var(--shadow-md)',
+        backgroundImage: `linear-gradient(to bottom right, var(--color-surface), rgba(255,255,255,0))`,
+        backdropFilter: 'blur(10px)',
       }}
     >
       {/* Target Handle */}

@@ -21,7 +21,11 @@ import { useWorkflowStore } from '../../hooks/useWorkflowStore';
 import type { NodeType, WorkflowNodeData, WorkflowNode, WorkflowEdge } from '../../types/workflow';
 import { NODE_TYPE_COLORS } from '../../types/workflow';
 
-export function WorkflowCanvas() {
+interface WorkflowCanvasProps {
+  isDarkMode?: boolean;
+}
+
+export function WorkflowCanvas({ isDarkMode }: WorkflowCanvasProps) {
   const {
     nodes,
     edges,
@@ -92,7 +96,8 @@ export function WorkflowCanvas() {
   const defaultEdgeOptions = useMemo(() => ({
     type: 'smoothstep',
     animated: true,
-    style: { stroke: '#94a3b8', strokeWidth: 2 },
+    className: 'animated',
+    style: { strokeWidth: 2 },
   }), []);
 
   return (
@@ -121,7 +126,12 @@ export function WorkflowCanvas() {
         deleteKeyCode={null}
         proOptions={{ hideAttribution: true }}
       >
-        <Background variant={BackgroundVariant.Dots} gap={20} size={1} color="#d1d5db" />
+        <Background 
+          variant={BackgroundVariant.Dots} 
+          gap={20} 
+          size={1} 
+          color={isDarkMode ? '#334155' : '#cbd5e1'} 
+        />
         <Controls
           className="canvas-controls"
           showInteractive={false}
